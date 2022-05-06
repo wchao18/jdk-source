@@ -690,7 +690,7 @@ public class HashMap<K,V> extends AbstractMap<K,V>
         else if (oldThr > 0) // HashMap(int initialCapacity, float loadFactor)调用
             newCap = oldThr;
         else {               // zero initial threshold signifies using defaults
-            newCap = DEFAULT_INITIAL_CAPACITY;//第一次put！！！！！！！！！！！！！！！！！！
+            newCap = DEFAULT_INITIAL_CAPACITY;//第一次put！！！！！！！！！！！！！！！！！
             newThr = (int)(DEFAULT_LOAD_FACTOR * DEFAULT_INITIAL_CAPACITY);//扩充阈值
         }
         if (newThr == 0) {//如果新阈值为0，根据负载因子设置新阈值
