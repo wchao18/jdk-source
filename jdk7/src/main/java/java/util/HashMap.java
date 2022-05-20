@@ -304,7 +304,7 @@ public class HashMap<K, V> extends AbstractMap<K, V> implements Map<K, V>, Clone
     }
 
     /**
-     * 计算
+     * 计算逻辑 二进制的bit位上 只有一个1
      *
      * @param number
      * @return
@@ -314,7 +314,7 @@ public class HashMap<K, V> extends AbstractMap<K, V> implements Map<K, V>, Clone
         return number >= MAXIMUM_CAPACITY ? MAXIMUM_CAPACITY
                 : (number > 1) ? Integer.highestOneBit((number - 1) << 1) : 1;
 
-        //为什么要减去1
+        //为什么要减去1？
         //不减去1特殊 16->32->32  减去16->15->30->16
     }
 
@@ -429,7 +429,7 @@ public class HashMap<K, V> extends AbstractMap<K, V> implements Map<K, V>, Clone
      * @see #put(Object, Object)
      */
     public V get(Object key) {
-        if (key == null)
+        if (key == null)//获取key为null的value
             return getForNullKey();
         Entry<K, V> entry = getEntry(key);
 
@@ -622,7 +622,7 @@ public class HashMap<K, V> extends AbstractMap<K, V> implements Map<K, V>, Clone
                 if (rehash) {
                     e.hash = null == e.key ? 0 : hash(e.key);
                 }
-                //头插法
+                //头插法,扩容后链表的顺序反了
                 int i = indexFor(e.hash, newCapacity);
                 e.next = newTable[i];
                 newTable[i] = e;
@@ -915,7 +915,7 @@ public class HashMap<K, V> extends AbstractMap<K, V> implements Map<K, V>, Clone
             bucketIndex = indexFor(hash, table.length);
         }
 
-        createEntry(hash, key, value, bucketIndex);
+        createEntry(hash, key, value, bucketIndex);//头插法
     }
 
     /**

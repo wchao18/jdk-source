@@ -1342,14 +1342,14 @@ public final class Integer extends Number implements Comparable<Integer> {
      *     of the highest-order one-bit in the specified value, or zero if
      *     the specified value is itself equal to zero.
      * @since 1.5
-     */
+     *///找到小于等于i的幂次方数，将低位的所有的值变为0
     public static int highestOneBit(int i) {
         // HD, Figure 3-1
         i |= (i >>  1);
         i |= (i >>  2);
         i |= (i >>  4);
         i |= (i >>  8);
-        i |= (i >> 16);
+        i |= (i >> 16);//为什么要移动这么多次？因为int占用4个字节（32位）
         return i - (i >>> 1);
     }
 
