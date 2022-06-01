@@ -838,8 +838,8 @@ public class ArrayList<E> extends AbstractList<E>
      * An optimized version of AbstractList.Itr
      */
     private class Itr implements Iterator<E> {
-        int cursor;       // index of next element to return
-        int lastRet = -1; // index of last element returned; -1 if no such
+        int cursor;       // index of next element to return 下一个要访问的元素索引
+        int lastRet = -1; // index of last element returned; -1 if no such  上一个访问的元素索引
         int expectedModCount = modCount;//检验在迭代过程中List对象是否被修改了，如果被修改了则抛出
 
         public boolean hasNext() {

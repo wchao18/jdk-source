@@ -347,7 +347,7 @@ public class HashMap<K, V> extends AbstractMap<K, V> implements Map<K, V>, Clone
 
     /**
      * Initialize the hashing mask value. We defer initialization until we
-     * really need it.
+     * really need it.  重新生成hash种子
      */
     final boolean initHashSeedAsNeeded(int capacity) {
         boolean currentAltHashing = hashSeed != 0;
