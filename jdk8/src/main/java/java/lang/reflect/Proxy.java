@@ -558,7 +558,7 @@ public class Proxy implements java.io.Serializable {
         implements BiFunction<ClassLoader, Class<?>[], Class<?>>
     {
         // prefix for all proxy class names
-        private static final String proxyClassNamePrefix = "$Proxy";
+        private static final String proxyClassNamePrefix = "$Proxy";//代理类前缀
 
         // next number to use for generation of unique proxy class names
         private static final AtomicLong nextUniqueNumber = new AtomicLong();
@@ -574,7 +574,7 @@ public class Proxy implements java.io.Serializable {
                  */
                 Class<?> interfaceClass = null;
                 try {
-                    interfaceClass = Class.forName(intf.getName(), false, loader);
+                    interfaceClass = Class.forName(intf.getName(), false, loader);//加载类
                 } catch (ClassNotFoundException e) {
                 }
                 if (interfaceClass != intf) {
@@ -637,8 +637,8 @@ public class Proxy implements java.io.Serializable {
              * Generate the specified proxy class.
              */
             byte[] proxyClassFile = ProxyGenerator.generateProxyClass(
-                proxyName, interfaces, accessFlags);
-            try {
+                proxyName, interfaces, accessFlags);//生成字节码
+            try {//使用类加载器将代理类的字节码文件加载到JVM中,native
                 return defineClass0(loader, proxyName,
                                     proxyClassFile, 0, proxyClassFile.length);
             } catch (ClassFormatError e) {
@@ -716,7 +716,7 @@ public class Proxy implements java.io.Serializable {
         /*
          * Look up or generate the designated proxy class.
          */
-        Class<?> cl = getProxyClass0(loader, intfs);
+        Class<?> cl = getProxyClass0(loader, intfs);//生成代理类Proxy的字节码文件
 
         /*
          * Invoke its constructor with the designated invocation handler.
@@ -726,7 +726,7 @@ public class Proxy implements java.io.Serializable {
                 checkNewProxyPermission(Reflection.getCallerClass(), cl);
             }
 
-            final Constructor<?> cons = cl.getConstructor(constructorParams);
+            final Constructor<?> cons = cl.getConstructor(constructorParams);//获取代理类的构造函数，入参为InvocationHandler
             final InvocationHandler ih = h;
             if (!Modifier.isPublic(cl.getModifiers())) {
                 AccessController.doPrivileged(new PrivilegedAction<Void>() {
@@ -736,7 +736,7 @@ public class Proxy implements java.io.Serializable {
                     }
                 });
             }
-            return cons.newInstance(new Object[]{h});
+            return cons.newInstance(new Object[]{h});//创建Proxy的代理实例
         } catch (IllegalAccessException|InstantiationException e) {
             throw new InternalError(e.toString(), e);
         } catch (InvocationTargetException e) {
