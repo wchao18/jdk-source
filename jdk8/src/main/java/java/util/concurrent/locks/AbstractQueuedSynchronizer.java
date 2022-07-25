@@ -584,11 +584,11 @@ public abstract class AbstractQueuedSynchronizer
         for (;;) {
             Node t = tail;
             if (t == null) { // Must initialize
-                if (compareAndSetHead(new Node()))
+                if (compareAndSetHead(new Node()))//双向队列设置头
                     tail = head;
             } else {
-                node.prev = t;
-                if (compareAndSetTail(t, node)) {
+                node.prev = t;//尾插入队
+                if (compareAndSetTail(t, node)) {//设置尾结点
                     t.next = node;
                     return t;
                 }
@@ -602,7 +602,7 @@ public abstract class AbstractQueuedSynchronizer
      * @param mode Node.EXCLUSIVE for exclusive, Node.SHARED for shared
      * @return the new node
      */
-    private Node addWaiter(Node mode) {
+    private Node addWaiter(Node mode) {//node是个双向链表
         Node node = new Node(Thread.currentThread(), mode);
         // Try the fast path of enq; backup to full enq on failure
         Node pred = tail;
@@ -613,7 +613,7 @@ public abstract class AbstractQueuedSynchronizer
                 return node;
             }
         }
-        enq(node);
+        enq(node);//构建头结点
         return node;
     }
 
@@ -659,7 +659,7 @@ public abstract class AbstractQueuedSynchronizer
                     s = t;
         }
         if (s != null)
-            LockSupport.unpark(s.thread);
+            LockSupport.unpark(s.thread);//唤醒阻塞的线程
     }
 
     /**
@@ -861,17 +861,17 @@ public abstract class AbstractQueuedSynchronizer
             for (;;) {
                 final Node p = node.predecessor();
                 if (p == head && tryAcquire(arg)) {
-                    setHead(node);
+                    setHead(node); //head头结点出队
                     p.next = null; // help GC
                     failed = false;
                     return interrupted;
                 }
                 if (shouldParkAfterFailedAcquire(p, node) &&
-                    parkAndCheckInterrupt())
+                    parkAndCheckInterrupt())//可中断
                     interrupted = true;
             }
         } finally {
-            if (failed)
+            if (failed)//中断后
                 cancelAcquire(node);
         }
     }
